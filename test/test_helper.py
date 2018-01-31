@@ -1,3 +1,5 @@
+from unittest.mock import mock_open, patch
+
 from CI.CI_helpers import *
 
 
@@ -50,3 +52,21 @@ def test_is_successful_command_regex_negative():
     output = "Lorem Ipsum dolori yada TEST PASSED nadie pongo"
     success_regex = "[^L]orem"
     assert is_successful_command(output, success_regex) is False
+
+
+def test_read_config():
+    m = mock_open(read_data=
+                  """{
+                    "commands": ["pip install -r requirements.txt", "python runTests.py"],
+                    "success_strings": ["", "TESTS PASSED"]
+                  }""")
+
+    with patch('CI.CI_helpers.open', m):
+        commands, success = read_configfile("foo")
+
+    m.assert_called_once_with("foo")
+
+    assert commands[0] == "pip install -r requirements.txt"
+    assert success[0] == ""
+    assert commands[1] == "python runTests.py"
+    assert success[1] == "TESTS PASSED"
