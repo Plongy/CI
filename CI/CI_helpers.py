@@ -1,3 +1,6 @@
+import subprocess
+
+
 def pull_repo(ssh_url, target_folder):
     """Pulls the repo at ssh_url into target_folder"""
     raise NotImplementedError
@@ -11,8 +14,21 @@ def read_configfile(path):
 def run_commands(command_list):
     """Runs a list of bash commands in the current directory
     :type command_list: An iterable containing strings
+    Observe: `cd` can not be called with this function
     """
-    raise NotImplementedError
+    command_output = []
+    for command in command_list:
+        split_command = command.split(" ")
+        try:
+            result = subprocess.Popen(split_command, stdout=subprocess.PIPE)
+            # if function call was valid
+            if result.returncode == None:
+                # append output to list
+                command_output.append(result.communicate()[0])
+        except OSError as err:
+            command_output.append("Error")
+            print(err)
+    return command_output
 
 
 def is_successful_command(command_output, success_regex):
@@ -21,5 +37,6 @@ def is_successful_command(command_output, success_regex):
 
 
 def set_commit_state(repo_url, commit_hash, state):
-    """Sends a POST request to GitHub API according to https://developer.github.com/v3/repos/statuses"""
+    """Sends a POST request to GitHub API according to 
+    https://developer.github.com/v3/repos/statuses"""
     raise NotImplementedError
