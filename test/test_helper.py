@@ -70,3 +70,15 @@ def test_read_config():
     assert success[0] == ""
     assert commands[1] == "python runTests.py"
     assert success[1] == "TESTS PASSED"
+
+
+def test_log_process_positive():
+    """ Checks if a log file with the given data is
+    written to the given file path"""
+    command_list = ["echo hello", "echo bye"]
+    command_status = [True, True]
+    command_output = [b'hello\n', b'bye\n']
+    # file path of the webhook data
+    path = os.getcwd() + '/test/webhook_test.json'
+
+    assert log_process(command_list, command_status, command_output, path) is True
