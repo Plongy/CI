@@ -1,9 +1,15 @@
 import subprocess
 
 
-def pull_repo(ssh_url, target_folder):
+def clone_repo(ssh_url, target_folder):
     """Pulls the repo at ssh_url into target_folder"""
-    raise NotImplementedError
+    command = 'git clone ' + ssh_url + ' ' + target_folder
+    try:
+        process = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
+        return True
+    except subprocess.CalledProcessError as err:
+        print(err.returncode)
+        return False
 
 
 def read_configfile(path):
@@ -37,6 +43,6 @@ def is_successful_command(command_output, success_regex):
 
 
 def set_commit_state(repo_url, commit_hash, state):
-    """Sends a POST request to GitHub API according to 
+    """Sends a POST request to GitHub API according to
     https://developer.github.com/v3/repos/statuses"""
     raise NotImplementedError
