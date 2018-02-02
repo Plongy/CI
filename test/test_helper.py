@@ -6,7 +6,7 @@ from CI.CI_helpers import *
 def test_run_commands_positive():
     commands = ["echo hello", "echo bye"]
     command_output = run_commands(commands)
-    assert command_output == [b'hello\n', b'bye\n']
+    assert command_output == ['hello\n', 'bye\n']
 
 
 def test_run_commands_negative():
@@ -14,7 +14,7 @@ def test_run_commands_negative():
     to list """
     commands = ["ech hello", "echo hello"]
     command_output = run_commands(commands)
-    assert command_output == ["Error", b'hello\n']
+    assert command_output == ["Error", 'hello\n']
 
 
 def test_clone_repo():

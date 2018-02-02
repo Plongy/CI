@@ -37,7 +37,7 @@ def run_commands(command_list):
             # if function call was valid
             if result.returncode == None:
                 # append output to list
-                command_output.append(result.communicate()[0])
+                command_output.append(result.communicate()[0].decode())
         except OSError as err:
             command_output.append("Error")
             print(err)
