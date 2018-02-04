@@ -62,11 +62,11 @@ def test_read_config():
                   }""")
 
     with patch('CI.CI_helpers.open', m):
-        commands, success = read_configfile("foo")
+        config_data = read_configfile("foo")
 
     m.assert_called_once_with("foo")
 
-    assert commands[0] == "pip install -r requirements.txt"
-    assert success[0] == ""
-    assert commands[1] == "python runTests.py"
-    assert success[1] == "TESTS PASSED"
+    assert config_data["commands"][0] == "pip install -r requirements.txt"
+    assert config_data["success_strings"][0] == ""
+    assert config_data["commands"][1] == "python runTests.py"
+    assert config_data["success_strings"][1] == "TESTS PASSED"
