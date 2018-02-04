@@ -16,12 +16,8 @@ def clone_repo(ssh_url, target_folder):
 
 def read_configfile(path):
     """Parses a JSON configfile at path and then returns it"""
-
     json_data = open(path)
-    data = json.load(json_data)
-    commands = data["commands"]
-    success_strings = data["success_strings"]
-    return commands, success_strings
+    return json.load(json_data)
 
 
 def run_commands(command_list):
