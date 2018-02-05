@@ -2,6 +2,10 @@ import json
 import re
 import subprocess
 
+import requests
+
+from CI import constants
+
 
 def clone_repo(ssh_url, target_folder):
     """Pulls the repo at ssh_url into target_folder"""
@@ -46,7 +50,13 @@ def is_successful_command(command_output, success_regex):
     return bool(matcher.match(command_output))
 
 
-def set_commit_state(repo_url, commit_hash, state):
+def set_commit_state(repo_name, commit_hash, state):
     """Sends a POST request to GitHub API according to
     https://developer.github.com/v3/repos/statuses"""
-    raise NotImplementedError
+    requests.post(
+        url=f"https://api.github.com/repos/{repo_name}/statuses/{commit_hash}?access_token={constants.OAUTH_TOKEN}",
+        json={
+            "state": state,
+            "context": "continuous-integration/group7-CI"
+        }
+    )
