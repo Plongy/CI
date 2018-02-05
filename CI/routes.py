@@ -6,6 +6,7 @@ from flask import request
 from CI import app
 from CI.CI_helpers import *
 from CI.constants import CLONE_FOLDER, CONF
+from CI.history_helpers import log_process
 
 
 @app.route('/')
@@ -47,6 +48,13 @@ def github_webhook():
             repo_data['full_name'],
             head_sha,
             "success" if all(successful_commands) else "failure"
+        )
+
+        log_process(
+            command_list=config['commands'],
+            command_status=successful_commands,
+            command_output=command_results,
+            webhook_json=data
         )
     except Exception:
         set_commit_state(

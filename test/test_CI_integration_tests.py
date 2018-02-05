@@ -42,6 +42,7 @@ def test_github_webhook(client):
 
     # Webhook post data
     webhook_data = f"""{{
+        "ref": "ref/heads/not-master",
         "head_commit": {{
             "id": "{sha}"
         }},
@@ -56,10 +57,13 @@ def test_github_webhook(client):
 
     fake_set_state = MagicMock()
 
+    fake_log_process = MagicMock()
+
     with patch('CI.CI_helpers.open', conf):
         with patch('CI.routes.clone_repo', fake_clone) as patch_clone:
             with patch('CI.routes.set_commit_state', fake_set_state) as patch_set_state:
-                client.post('/hooks/github', data=webhook_data, content_type='application/json')
+                with patch('CI.routes.log_process', fake_log_process):
+                    client.post('/hooks/github', data=webhook_data, content_type='application/json')
 
     conf.assert_called_once_with(f"{constants.CLONE_FOLDER}{repo_name}/{sha}/{constants.CONF}")
     patch_clone.assert_called_with("invalid", f"{constants.CLONE_FOLDER}{repo_name}/{sha}")
@@ -67,3 +71,5 @@ def test_github_webhook(client):
     assert patch_set_state.call_count == 2
     patch_set_state.assert_any_call(repo_name, sha, "pending")
     patch_set_state.assert_called_with(repo_name, sha, "success")
+
+    fake_log_process.assert_called_once()
