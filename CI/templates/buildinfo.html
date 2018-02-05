@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css">
+    <script src="/static/jquery-3.3.1.min.js"></script>
+    <script src="/static/bootstrap.bundle.min.js"></script>
+    <title>Build #{{build_id}}</title>
+</head>
+<body style="background-color:#fffff3;">
+  <div class="container">
+    <header>
+      <div class="row {% if status %} alert-success {% else %} alert-danger {% endif %}">
+        <div class="col-3">
+          <a
+              type="button"
+              class="btn btn-light btn-lg m-5"
+              href="/history/{{owner}}/{{repo}}"
+          >Go back!</a>
+        </div>
+        <h1 class="m-5 font-weight-bold">Build #{{build_id}}</h1>
+      </div>
+    </header>
+    <div class="row alert-secondary">
+      <div class="offset-1 col-4">
+        <h3 class="font-weight-bold m-3">{{owner}}/{{repo}}</h3>
+      </div>
+      <div class="col-6">
+        <h4 class="m-1 text-right">{{ date.strftime("%x %X") }}</h4>
+        <h4><pre class="m-1 text-right">{{ hash }}</pre></h4>
+      </div>
+    </div>
+    <div id="accordion" class="col-8 offset-2 my-5">
+      {% for result in results %}
+      <div class="card">
+        <div class="card-header {% if result.status %} alert-success {% else %} alert-danger {% endif %}" id="heading{{loop.index}}">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collabsable{{loop.index}}" aria-expanded="true" aria-controls="collabsable{{loop.index}}">
+              <pre>{{result.command}}</pre>
+            </button>
+          </h5>
+        </div>
+
+        <div id="collabsable{{loop.index}}" class="collapse hide" aria-labelledby="heading{{loop.index}}" data-parent="#accordion">
+            <pre>{{result.output}}</pre>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

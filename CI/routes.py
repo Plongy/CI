@@ -1,13 +1,15 @@
+import json
 import os
 import shutil
+from datetime import datetime
 
-from flask import request
+from flask import request, render_template, abort
 
 from CI import app
 from CI.CI_helpers import \
     set_commit_state, clone_repo, read_configfile, \
     run_commands, is_successful_command
-from CI.constants import CLONE_FOLDER, CONF
+from CI.constants import CLONE_FOLDER, CONF, HISTORY_FOLDER
 from CI.history_helpers import log_process
 
 
@@ -96,3 +98,26 @@ def github_webhook():
         )
         print(e)
     return ""  # We have to return something
+
+
+@app.route('/history/<owner>/<repo>/<build_id>')
+def build_info(owner, repo, build_id):
+    """This route collects and displays the specified build file"""
+    try:
+        build_file_path = f"{HISTORY_FOLDER}{owner}/{repo}/{build_id}.json"
+        build_data = json.load(open(build_file_path))
+    except FileNotFoundError:
+        abort(404)
+    return render_template(
+        "buildinfo.html",
+        status=all([build_data['results'][i]['status']
+                    for i in range(len(build_data['results']))]),
+        owner=owner,
+        repo=repo,
+        build_id=build_id,
+        date=datetime.strptime(
+            build_data["date"].replace(":", ""),
+            "%Y-%m-%dT%H%M%S%z"),
+        hash=build_data["hash"],
+        results=build_data["results"]
+    )

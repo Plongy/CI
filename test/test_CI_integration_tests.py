@@ -73,3 +73,24 @@ def test_github_webhook(client):
     patch_set_state.assert_called_with(repo_name, sha, "success")
 
     fake_log_process.assert_called_once()
+
+
+def test_build_info(client):
+    m = mock_open(
+        read_data='{"date": "2017-06-23T12:12:12-02:00","hash": "007","results": ['
+                  '{"command": "echo hello","status": 0,"output": "hello\\n"},'
+                  '{"command": "echo bye","status": 0,"output": "bye\\n"}'
+                  ']}'
+    )
+    owner_name = "owner"
+    repo_name = "repo"
+    build_id = "1"
+
+    with patch('CI.routes.open', m):
+        res = client.get('/history/' + owner_name + '/' + repo_name + '/' + build_id)
+
+    m.assert_called_once_with(f"{constants.HISTORY_FOLDER}{owner_name}/{repo_name}/{build_id}.json")
+
+    assert res.status_code == 200
+    assert "echo hello" in res.data.decode()
+    assert "Build #1" in res.data.decode()
