@@ -2,7 +2,8 @@ from unittest.mock import mock_open, patch
 
 import requests_mock
 
-from CI.CI_helpers import *
+from CI import constants
+from CI.CI_helpers import run_commands, clone_repo, is_successful_command, read_configfile, set_commit_state
 
 
 def test_run_commands_positive():
@@ -77,13 +78,13 @@ def test_read_config():
 def test_set_commit_state_1():
     # Contract: The function posts to the correct url with the correct data.
     repo = "test/repo"
-    hash = "123fgh"
-    url = f'https://api.github.com/repos/{repo}/statuses/{hash}?access_token={constants.OAUTH_TOKEN}'
+    sha = "123fgh"
+    url = f'https://api.github.com/repos/{repo}/statuses/{sha}?access_token={constants.OAUTH_TOKEN}'
     status = "success"
 
     with requests_mock.mock() as m:
         m.post(url)
-        set_commit_state(repo, hash, status)
+        set_commit_state(repo, sha, status)
 
     assert m.call_count == 1
 
@@ -96,13 +97,13 @@ def test_set_commit_state_1():
 def test_set_commit_state_2():
     # Contract: The function posts to the correct url with the correct data (with status parameter set to failure).
     repo = "foo/bar"
-    hash = "456jgoafj"
-    url = f'https://api.github.com/repos/{repo}/statuses/{hash}?access_token={constants.OAUTH_TOKEN}'
+    sha = "456jgoafj"
+    url = f'https://api.github.com/repos/{repo}/statuses/{sha}?access_token={constants.OAUTH_TOKEN}'
     status = "failure"
 
     with requests_mock.mock() as m:
         m.post(url)
-        set_commit_state(repo, hash, status)
+        set_commit_state(repo, sha, status)
 
     assert m.call_count == 1
 
