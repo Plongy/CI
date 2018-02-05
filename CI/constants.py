@@ -2,5 +2,6 @@ import os
 
 CLONE_FOLDER = os.getenv('CLONE_FOLDER', 'tmp/')
 HISTORY_FOLDER = os.getenv('HISTORY_FOLDER', 'history/')
+OAUTH_TOKEN = os.getenv('OAUTH_TOKEN', '1234567890123456789012345678901234567890')
 
 CONF = 'ci_conf.json'

@@ -1,5 +1,7 @@
 from unittest.mock import mock_open, patch
 
+import requests_mock
+
 from CI.CI_helpers import *
 
 
@@ -70,3 +72,41 @@ def test_read_config():
     assert config_data["success_strings"][0] == ""
     assert config_data["commands"][1] == "python runTests.py"
     assert config_data["success_strings"][1] == "TESTS PASSED"
+
+
+def test_set_commit_state_1():
+    #Contract: The function posts to the correct url with the correct data.
+    repo = "test/repo"
+    hash = "123fgh"
+    url = f'https://api.github.com/repos/{repo}/statuses/{hash}/?access_token={constants.OAUTH_TOKEN}'
+    status = "success"
+
+    with requests_mock.mock() as m:
+        m.post(url)
+        set_commit_state(repo, hash, status)
+
+    assert m.call_count == 1
+
+    history = m.request_history
+    assert history[0].url == url
+    assert history[0].method == 'POST'
+    assert f'{{"state": "{status}"}}' == history[0].text
+
+
+def test_set_commit_state_2():
+    #Contract: The function posts to the correct url with the correct data (with status parameter set to failure).
+    repo = "foo/bar"
+    hash = "456jgoafj"
+    url = f'https://api.github.com/repos/{repo}/statuses/{hash}/?access_token={constants.OAUTH_TOKEN}'
+    status = "failure"
+
+    with requests_mock.mock() as m:
+        m.post(url)
+        set_commit_state(repo, hash, status)
+
+    assert m.call_count == 1
+
+    history = m.request_history
+    assert history[0].url == url
+    assert history[0].method == 'POST'
+    assert f'{{"state": "{status}"}}' == history[0].text
