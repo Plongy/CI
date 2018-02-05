@@ -3,3 +3,5 @@ pytest == 3.3.2
 pytest-flask == 0.10.0
 requests == 2.18.4
 requests-mock == 1.4.0
+flake8 == 3.5.0
+
