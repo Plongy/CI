@@ -22,6 +22,10 @@ def index():
 
 @app.route('/hooks/github', methods=['POST'])
 def github_webhook():
+    """Defines and initiates the URL to which events will be sent to.
+     The event is triggered upon a push to a branch or repository tag
+     push"""
+
     data = request.get_json()
     print(data)
 

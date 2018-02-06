@@ -20,16 +20,15 @@ def client():
 
 
 def test_index(client):
-    # Test that index returns a response saying "Hello, World!"
+    """Contract: The index returns a response saying "Hello, World!" """
     res = client.get('/')
     assert res.status_code == 200
     assert b'Hello, World!' == res.data
 
 
 def test_github_webhook(client):
-    # Contract: function runs commands in the correct folder and the whole process seems to work
-    # Does not test repo cloning and that build state is set on github
-
+    """ Contract: function runs commands in the correct folder and the whole process seems to work
+        Does not test repo cloning and that build state is set on github"""
     root_dir = os.getcwd()
     repo_name = "foo/bar"
     sha = "f00ba2"
@@ -79,6 +78,8 @@ def test_github_webhook(client):
 
 
 def test_build_info(client):
+    """ Contract: The method builds the correct filepath name and gets all the info for the
+        specified build"""
     m = mock_open(
         read_data='{"date": "2017-06-23T12:12:12-02:00","hash": "007","results": ['
                   '{"command": "echo hello","status": 0,"output": "hello\\n"},'

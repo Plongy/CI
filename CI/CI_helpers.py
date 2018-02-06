@@ -28,7 +28,7 @@ def read_configfile(path):
 
 def run_commands(command_list):
     """Runs a list of bash commands in the current directory
-    :type command_list: An iterable containing strings
+    command_list: An iterable containing strings
     Observe: `cd` can not be called with this function
     """
     command_output = []
