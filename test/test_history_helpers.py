@@ -1,7 +1,7 @@
 import json
-from unittest.mock import mock_open, patch
+from unittest.mock import mock_open, patch, MagicMock
 
-from CI.history_helpers import log_process
+from CI.history_helpers import log_process, get_builds
 
 
 def test_log_process_positive():
@@ -45,3 +45,24 @@ def test_log_process_positive():
         f'{webhook_data_formated_string}, "results": [{{"command": "echo hello", "status": true, "output": '
         f'"hello\\n"}}, {{"command": "echo bye", "status": true, "output": "bye\\n"}}], "id": 0}}'
     )
+
+
+def test_get_builds():
+    m = mock_open(
+        read_data="""{
+                  "date":"2018-02-07T04:16:41+01:00",
+                  "id":"0",
+                  "head_commit":{"message":"Feat:do things"},
+                  "hash":"4526d6019fb0d82050d0dc98447bc176e18adf62",
+                  "results":[{"bla": "bla", "status":"true"}, {"blu": "blu", "status":"false"}],
+                  "branch":"newBranch"
+                  }"""
+    )
+
+    list_dir_mock = MagicMock(return_value=["0.json"])
+    with patch('CI.history_helpers.open', m):
+        with patch('os.listdir', list_dir_mock):
+            build_list = get_builds("foo", "foo")
+    m.assert_called_once_with("History/foo/foo/0.json")
+
+    assert build_list[0]["date"] == "2018-02-07T04:16:41+01:00"
