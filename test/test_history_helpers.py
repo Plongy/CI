@@ -17,16 +17,16 @@ def test_log_process_positive():
     command_output = ['hello\n', 'bye\n']
 
     # Webhook post data
-    webhook_data = f"""{{
-        "ref": "refs/heads/{branch}",
-        "head_commit": {{
-            "id": "{sha}",
-            "timestamp": "{time}"
-        }},
-        "repository": {{
-            "full_name": "{repo_name}"
-        }}
-    }}"""
+    webhook_data = {
+        "ref": "refs/heads/" + branch,
+        "head_commit": {
+            "id": sha,
+            "timestamp": time
+        },
+        "repository": {
+            "full_name": repo_name
+        }
+    }
 
     m = mock_open()
 
@@ -37,7 +37,7 @@ def test_log_process_positive():
 
     m.assert_called_once_with('history/foo/bar/0.json', 'w')
 
-    webhook_data_formated_string = json.dumps(json.loads(webhook_data))
+    webhook_data_formated_string = json.dumps(webhook_data)
 
     handle = m()
     handle.write.assert_called_once_with(
