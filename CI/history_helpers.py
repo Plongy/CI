@@ -1,5 +1,4 @@
 import json
-
 import os
 
 from CI import constants
@@ -46,3 +45,33 @@ def log_process(command_list, command_status, command_output, webhook_data):
 
     except IOError as e:
         print("Error writing to file.", e, "Tried to write", data)
+
+
+def get_builds(owner, repo_name):
+    path = f"History/{owner}/{repo_name}/"
+    build_list = []
+    try:
+        number_of_files = len(os.listdir(path))
+    except FileNotFoundError as error:
+        print(error)
+    try:
+        for i in range(number_of_files):
+            index = str(i) + ".json"
+            path = path + index
+            with open(path) as json_file:
+                data = json.load(json_file)
+                cmd_res = data["results"]
+                build_list.append({
+                    'date': data['date'],
+                    'id': data['id'],
+                    'message': data['head_commit']['message'],
+                    'hash': data['hash'],
+                    'status': all(
+                        [cmd_res[i]["status"] for i in range(len(cmd_res))]
+                    ),
+                    'branch': data['branch']
+                })
+
+    except FileNotFoundError as error:
+        print(error)
+    return build_list
