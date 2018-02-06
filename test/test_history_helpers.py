@@ -48,6 +48,8 @@ def test_log_process_positive():
 
 
 def test_get_builds():
+    """Contract: get_builds() builds the correct filepath, opens it and gets the correct data from builds and
+        returns a list containing the information extracted for each build"""
     m = mock_open(
         read_data="""{
                   "date":"2018-02-07T04:16:41+01:00",
