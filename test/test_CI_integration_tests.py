@@ -42,7 +42,7 @@ def test_github_webhook(client):
 
     # Webhook post data
     webhook_data = f"""{{
-        "ref": "ref/heads/not-master",
+        "ref":"ref/heads/not_master",
         "head_commit": {{
             "id": "{sha}"
         }},
@@ -53,7 +53,7 @@ def test_github_webhook(client):
     }}"""
 
     # Mocked clone function that just creates the target folder
-    fake_clone = Mock(side_effect=lambda x, y: os.mkdir(y))
+    fake_clone = Mock(side_effect=lambda x, y, z: os.mkdir(z))
 
     fake_set_state = MagicMock()
 
@@ -66,7 +66,7 @@ def test_github_webhook(client):
                     client.post('/hooks/github', data=webhook_data, content_type='application/json')
 
     conf.assert_called_once_with(f"{constants.CLONE_FOLDER}{repo_name}/{sha}/{constants.CONF}")
-    patch_clone.assert_called_with("invalid", f"{constants.CLONE_FOLDER}{repo_name}/{sha}")
+    patch_clone.assert_called_with("invalid", "not_master", f"{constants.CLONE_FOLDER}{repo_name}/{sha}")
 
     assert patch_set_state.call_count == 2
     patch_set_state.assert_any_call(repo_name, sha, "pending")

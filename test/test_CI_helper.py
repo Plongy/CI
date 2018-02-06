@@ -1,3 +1,6 @@
+import os
+import shutil
+import subprocess
 from unittest.mock import mock_open, patch
 
 import requests_mock
@@ -22,7 +25,23 @@ def test_run_commands_negative():
 
 def test_clone_repo():
     """ Will return false since we are trying to clone a non-existing repo"""
-    assert clone_repo("fsdwe", "~/Desktop/test1") is False
+    assert clone_repo("fsdwe", "master", "~/Desktop/test1") is False
+
+
+def test_clone_repo_correct_branch():
+    """ Test cloning a known repo with two branches: master and not_master
+    The branch not_master should be the one that is cloned
+    even though master is the main branch"""
+    assert clone_repo("git@github.com:Plongy/test-repo.git", "not_master", "test-repo")
+
+    os.chdir("test-repo")
+
+    output = subprocess.check_output("git branch | grep \*", shell=True)
+
+    os.chdir("..")
+    shutil.rmtree("test-repo")
+
+    assert "not_master" in output.decode()
 
 
 def test_is_successful_command_positive():
