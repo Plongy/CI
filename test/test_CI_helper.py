@@ -22,7 +22,7 @@ def test_run_commands_negative():
 
 def test_clone_repo():
     """ Will return false since we are trying to clone a non-existing repo"""
-    assert clone_repo("fsdwe", "~/Desktop/test1") is False
+    assert clone_repo("fsdwe", "master", "~/Desktop/test1") is False
 
 
 def test_is_successful_command_positive():

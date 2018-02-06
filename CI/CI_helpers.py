@@ -7,9 +7,9 @@ import requests
 from CI import constants
 
 
-def clone_repo(ssh_url, target_folder):
+def clone_repo(ssh_url, branch, target_folder):
     """Pulls the repo at ssh_url into target_folder"""
-    command = 'git clone ' + ssh_url + ' ' + target_folder
+    command = f'git clone -b {branch} {ssh_url} {target_folder}'
     try:
         subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
         return True

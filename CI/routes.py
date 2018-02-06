@@ -34,8 +34,10 @@ def github_webhook():
             CLONE_FOLDER + repo_data['full_name'],
             exist_ok=True
         )
+        branch = data['ref'].split('/')[-1]
         clone_repo(
             repo_data['ssh_url'],
+            branch,
             f"{CLONE_FOLDER}{repo_data['full_name']}/{head_sha}"
         )
 
