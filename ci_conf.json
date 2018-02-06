@@ -1,0 +1,4 @@
+{
+  "commands": ["pip install -r requirements.txt", "flake8 CI.py", "flake8 CI", "pytest"],
+  "success_strings": ["", "^$", "^$", "[^,]\\s+\\d+\\s+passed"]
+}
