@@ -14,7 +14,9 @@ def clone_repo(ssh_url, branch, target_folder):
         subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
         return True
     except subprocess.CalledProcessError as err:
-        print(err.returncode)
+        # Attributes of that exception hold the arguments,
+        # the exit code, and stderr.
+        print("Exception: CalledProcessError. Return code:", err.returncode)
         return False
 
 
@@ -40,7 +42,7 @@ def run_commands(command_list):
                 command_output.append(result.communicate()[0].decode())
         except OSError as err:
             command_output.append("Error")
-            print(err)
+            print("Exception: OSError", err)
     return command_output
 
 
