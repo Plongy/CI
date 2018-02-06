@@ -34,12 +34,17 @@ def github_webhook():
             CLONE_FOLDER + repo_data['full_name'],
             exist_ok=True
         )
+
+        print("Created directory to clone repository into...")
+
         branch = data['ref'].split('/')[-1]
         clone_repo(
             repo_data['ssh_url'],
             branch,
             f"{CLONE_FOLDER}{repo_data['full_name']}/{head_sha}"
         )
+
+        print("Successfully cloned repository from", repo_data['ssh_url'])
 
         config = read_configfile(
             f"{CLONE_FOLDER}{repo_data['full_name']}/{head_sha}/{CONF}"
@@ -50,6 +55,9 @@ def github_webhook():
         os.chdir(f"{CLONE_FOLDER}{repo_data['full_name']}/{head_sha}")
 
         command_results = run_commands(config['commands'])
+
+        print("Successfully ran commands...")
+        print("Output:", command_results)
 
         # Return to root folder
         os.chdir(main_dir)
@@ -63,6 +71,8 @@ def github_webhook():
             for pair in zip(command_results, config['success_strings'])
         ]
 
+        print("Successful tests:", successful_commands)
+
         set_commit_state(
             repo_data['full_name'],
             head_sha,
@@ -75,6 +85,9 @@ def github_webhook():
             command_output=command_results,
             webhook_json=data
         )
+
+        print("Successfully saved long entry...")
+
     except Exception as e:
         set_commit_state(
             repo_data['full_name'],
