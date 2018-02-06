@@ -93,3 +93,18 @@ def test_build_info(client):
     m.assert_called_once_with(f"{constants.HISTORY_FOLDER}{owner_name}/{repo_name}/{build_id}.json")
 
     assert res.status_code == 200
+
+def test_builds_info(client):
+
+    m = mock_open(
+        read_data='{"date": "170623","id": "0","message": "hejhej","hash": "007","status": "success","branch": "branch"}'
+    )
+    owner_name = "owner"
+    repo_name = "repo"
+
+    with patch('CI.routes.open', m):
+        res = client.get('/history/' + owner_name + '/' + repo_name)
+
+    m.assert_called_once_with(f"{constants.HISTORY_FOLDER}{owner_name}/{repo_name}")
+
+    assert res.status_code == 200
