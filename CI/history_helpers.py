@@ -48,6 +48,11 @@ def log_process(command_list, command_status, command_output, webhook_data):
 
 
 def get_builds(owner, repo_name):
+    """Takes the owner (/author) and name of repository
+     and returns a list containing information from all builds
+     for that repository.
+     The information contained in each build:
+     id, commit message, hash, status, branch, date"""
     path = f"History/{owner}/{repo_name}/"
     build_list = []
     try:
