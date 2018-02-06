@@ -5,9 +5,9 @@ import os
 from CI import constants
 
 
-def log_process(command_list, command_status, command_output, webhook_json):
+def log_process(command_list, command_status, command_output, webhook_data):
     """ Takes given webhook data and loads the json to be able to parse it"""
-    webhook_data = json.loads(webhook_json)
+    # save date, hash and branch to variables
     data = {
         'date': webhook_data['head_commit']['timestamp'],
         'hash': webhook_data['head_commit']['id'],
@@ -15,8 +15,6 @@ def log_process(command_list, command_status, command_output, webhook_json):
         'webhook_data': webhook_data,
         'results': []
     }
-
-    # save date and hash to variables
 
     # start building our log entry
     for i in range(len(command_list)):

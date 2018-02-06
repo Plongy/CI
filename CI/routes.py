@@ -85,7 +85,7 @@ def github_webhook():
             command_list=config['commands'],
             command_status=successful_commands,
             command_output=command_results,
-            webhook_json=data
+            webhook_data=data
         )
 
         print("Successfully saved long entry...")
