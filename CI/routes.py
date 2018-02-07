@@ -113,11 +113,12 @@ def github_webhook():
 
 @app.route('/history/<owner>/<repo>', endpoint="list_builds")
 def list_builds(owner, repo):
-    """This route collects and displays all of the builds for the specified repo"""
+    """This route collects and displays all
+    of the builds for the specified repo"""
 
     return render_template(
         "listbuilds.html",
-        owner= owner,
+        owner=owner,
         repo=repo,
         build_list=get_builds(owner, repo)
     )
