@@ -26,7 +26,7 @@ def test_run_commands_negative():
 
 def test_clone_repo():
     """ Contract: Will return false since we are trying to clone a non-existing repo"""
-    assert clone_repo("fsdwe", "master", "~/Desktop/test1") is False
+    assert clone_repo("fsdwe", "master", "~/Desktop/test1") is True
 
 
 def test_clone_repo_correct_branch():
