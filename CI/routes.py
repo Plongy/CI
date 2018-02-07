@@ -7,7 +7,7 @@ from flask import request, render_template, abort
 from CI import app
 from CI.CI_helpers import \
     set_commit_state, clone_repo, read_configfile, \
-    run_commands, is_successful_command
+    run_commands, is_successful_command, try_deploy
 from CI.constants import CLONE_FOLDER, CONF, HISTORY_FOLDER
 from CI.history_helpers import log_process
 
@@ -60,19 +60,24 @@ def github_webhook():
         print("Successfully ran commands...")
         print("Output:", command_results)
 
-        # Return to root folder
-        os.chdir(main_dir)
-        shutil.rmtree(
-            path=f"{CLONE_FOLDER}{repo_data['full_name']}/{head_sha}",
-            ignore_errors=True
-        )
-
         successful_commands = [
             is_successful_command(*pair)
             for pair in zip(command_results, config['success_strings'])
         ]
 
         print("Successful tests:", successful_commands)
+
+        if all(successful_commands):
+            deploy_msg = try_deploy(config)
+        else:
+            deploy_msg = ""
+
+        # Return to root folder
+        os.chdir(main_dir)
+        shutil.rmtree(
+            path=f"{CLONE_FOLDER}{repo_data['full_name']}/{head_sha}",
+            ignore_errors=True
+        )
 
         set_commit_state(
             repo_data['full_name'],
