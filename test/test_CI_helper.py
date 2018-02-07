@@ -6,7 +6,7 @@ from unittest.mock import mock_open, patch
 import requests_mock
 
 from CI import constants
-from CI.CI_helpers import run_commands, clone_repo, is_successful_command, read_configfile, set_commit_state
+from CI.CI_helpers import run_commands, clone_repo, is_successful_command, read_configfile, set_commit_state, try_deploy
 
 
 def test_run_commands_positive():
@@ -137,3 +137,24 @@ def test_set_commit_state_2():
     assert history[0].url == url
     assert history[0].method == 'POST'
     assert f'{{"state": "{status}", "context": "continuous-integration/group7-CI"}}' == history[0].text
+
+
+def test_deploy_wrong_branch():
+    """Try deploying even though we have the wrong branch at the moment
+    Repo has two branches: "master" and "not_master". """
+    assert clone_repo("git@github.com:Plongy/test-repo.git", "not_master", "test-repo")
+
+    os.chdir("test-repo")
+
+    conf = {
+        "deploy_ssh_url": "git@github.com:Plongy/test-repo.git",
+        "source_branch": "master",
+        "target_branch": "master"
+    }
+
+    deploy_msg = try_deploy(conf)
+
+    os.chdir("..")
+    shutil.rmtree("test-repo")
+
+    assert "Did not deploy" == deploy_msg

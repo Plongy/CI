@@ -63,3 +63,32 @@ def set_commit_state(repo_name, commit_hash, state):
             "context": "continuous-integration/group7-CI"
         }
     )
+
+
+def try_deploy(config):
+    """Tries to deploy the tested application
+    according to the data in config
+
+    The method takes a dictionary that contains
+    the following key-value pairs:
+    'deploy_ssh_url' - the target ssh_url to deploy to
+    'source_branch' - the branch that should be deployed
+    'target_branch' - the target branch to deploy to
+    """
+    target_url = config['deploy_ssh_url']
+    source_branch = config['source_branch']
+    target_branch = config['target_branch']
+
+    repo_current_branch = subprocess.check_output(
+        "git branch | grep \*",
+        shell=True
+    )
+
+    branch = repo_current_branch.decode()[2:-1]
+
+    if source_branch == branch:
+        return subprocess.getoutput(
+            f"git push {target_url} {source_branch}:{target_branch}"
+        )
+    else:
+        return "Did not deploy"
