@@ -37,7 +37,10 @@ def test_github_webhook(client):
     # Mocked config file
     conf = mock_open(read_data=f"""{{
                     "commands": ["pwd", "echo foo bar"],
-                    "success_strings": ["{root_dir}/{constants.CLONE_FOLDER}{repo_name}/{sha}", "fo+ bar"]
+                    "success_strings": ["{root_dir}/{constants.CLONE_FOLDER}{repo_name}/{sha}", "fo+ bar"],
+                    "deploy_ssh_url": "git@github.com:foo/fake_repo_that_doesnt_exist",
+                    "source_branch": "master",
+                    "target_branch": "master"
                   }}""")
 
     # Webhook post data
