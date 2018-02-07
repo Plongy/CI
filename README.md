@@ -22,6 +22,9 @@ run the server by running `python CI.py`
 ### Tests
 The tests are written in pytest and are run by running `pytest` or `py.test`
 
+### Build history for this repository
+http://soffun.alexv.se/history/Plongy/CI
+
 ### Statement of Contribution
 #### Alexander Manske
 * Fix: Resolve type mismatch in log_process, update test (see issue #36)
