@@ -50,11 +50,18 @@ def test_is_successful_command_regex_positive():
 
 
 def test_is_successful_command_regex_negative():
-    # contract : A successful command returns a string which contains "TEST PASSED"
-    # as such the method should return True
+    # contract : A bad command returns a string which contains Lorem, but not something else ending in orem
+    # as such the method should return False
     output = "Lorem Ipsum dolori yada TEST PASSED nadie pongo"
     success_regex = "[^L]orem"
     assert is_successful_command(output, success_regex) is False
+
+
+def test_is_successful_command_newline_regex_positive():
+    # contract : The method should treat new line characters as all other characters
+    output = "Lorem\n Ipsum dol\nori yada TEST PASSED \nnadie pongo"
+    success_regex = "Ipsum.*yada"
+    assert is_successful_command(output, success_regex) is True
 
 
 def test_read_config():
