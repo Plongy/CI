@@ -46,8 +46,8 @@ def run_commands(command_list):
 
 def is_successful_command(command_output, success_regex):
     """Returns True iff the command_output matches the success_regex"""
-    matcher = re.compile("^.*" + success_regex + ".*$")
-    return bool(matcher.match(command_output))
+    matcher = re.compile(success_regex, re.DOTALL)
+    return bool(matcher.search(command_output))
 
 
 def set_commit_state(repo_name, commit_hash, state):
