@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css">
+    <script src="/static/jquery-3.3.1.min.js"></script>
+    <script src="/static/bootstrap.bundle.min.js"></script>
+    <title>Build overview</title>
+</head>
+<body style="background-color:#fffff3;">
+  <div class="container">
+    <header>
+      <div class="row" style="background-color:#DDA0DD;">
+        <div class="col-3">
+        </div>
+        <h1 class="m-5 font-weight-bold">{{owner}}/{{repo}}</h1>
+      </div>
+    </header>
+
+    <div class="list-group">
+      {% for build in build_list %}
+        <a
+          href="/history/{{owner}}/{{repo}}/{{build.id}}"
+          class="list-group-item list-group-item-action
+          list-group-item-{% if build.status %}success{% else %}danger{% endif %}"
+        >
+          #{{build.id}} {{build.message}} {{build.date}} {{build.branch}}
+        </a>
+      {% endfor %}
+    </div>
+
+  </div>
+</body>
+</html>

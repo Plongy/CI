@@ -67,7 +67,7 @@ def get_builds(owner, repo_name):
                 hook_data = data['webhook_data']
                 cmd_res = data["results"]
                 build_list.append({
-                    'date': data['date'],
+                    'date': data["date"],
                     'id': data['id'],
                     'message': hook_data['head_commit']['message'],
                     'hash': data['hash'],

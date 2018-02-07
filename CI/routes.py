@@ -10,7 +10,7 @@ from CI.CI_helpers import \
     set_commit_state, clone_repo, read_configfile, \
     run_commands, is_successful_command, try_deploy
 from CI.constants import CLONE_FOLDER, CONF, HISTORY_FOLDER
-from CI.history_helpers import log_process
+from CI.history_helpers import log_process, get_builds
 
 
 @app.route('/')
@@ -111,7 +111,19 @@ def github_webhook():
     return ""  # We have to return something
 
 
-@app.route('/history/<owner>/<repo>/<build_id>')
+@app.route('/history/<owner>/<repo>', endpoint="list_builds")
+def list_builds(owner, repo):
+    """This route collects and displays all of the builds for the specified repo"""
+
+    return render_template(
+        "listbuilds.html",
+        owner= owner,
+        repo=repo,
+        build_list=get_builds(owner, repo)
+    )
+
+
+@app.route('/history/<owner>/<repo>/<build_id>', endpoint="build_info")
 def build_info(owner, repo, build_id):
     """This route collects and displays the specified build file"""
     try:
