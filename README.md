@@ -2,6 +2,8 @@
 
 A simple CI server created in the course DD2480 at KTH
 
+[Documentation](http://soffun.alexv.se/static/CI.html)
+
 
 ## Running
 First you have to install all dependencies with `pip install -r requirements.txt`
@@ -15,8 +17,8 @@ The project has been developed in Python 3.6.4
 |HISTORY_FOLDER | history/ | Folder where to store the history. Should be persistent.|
 
 ### Server
-The server is run by setting the environment variable `FLASK_APP` 
-to `CI.py` and starting the server with `flask run`. You can also 
+The server is run by setting the environment variable `FLASK_APP`
+to `CI.py` and starting the server with `flask run`. You can also
 run the server by running `python CI.py`
 
 ### Tests

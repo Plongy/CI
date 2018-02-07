@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module routes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>routes</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href="CI.html">index</a><br><a href="file:/home/viklu/Projects/CI/CI/routes.py">/home/viklu/Projects/CI/CI/routes.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="CI.constants.html">CI.constants</a><br>
+</td><td width="25%" valign=top><a href="CI.CI_helpers.html">CI.CI_helpers</a><br>
+</td><td width="25%" valign=top><a href="CI.history_helpers.html">CI.history_helpers</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-index"><strong>index</strong></a>()</dt><dd><tt>Endpoint: '/'<br>
+  The root endpoint, will not be used in the project,
+  but is good for checking setups</tt></dd></dl>
+ <dl><dt><a name="-github_webhook"><strong>github_webhook</strong></a>()</dt><dd><tt>Endpoint: '/hooks/github'<br>
+   Defines and initiates the URL to which events will be sent to.
+    The event is triggered upon a push to a branch or repository tag
+    push. <br>A body of the POST should contain the data contained in a push event in github api v3</tt></dd></dl>
+ <dl><dt><a name="-list_builds"><strong>list_builds</strong></a>(owner, repo)</dt><dd><tt>Endpoint: '/history/[owner]/[repo]'<br>
+   This route collects and displays all
+   of the builds for the specified repo.</tt></dd></dl>
+ <dl><dt><a name="-build_info"><strong>build_info</strong></a>(owner, repo, build_id)</dt><dd><tt>Endpoint: '/history/[owner]/[repo]/[build_id]'<br>
+   This route collects and displays the specified build file</tt></dd></dl>
+</td></tr></table>
+</body></html>

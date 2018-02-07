@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module CI_helpers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>CI_helpers</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href="CI.html">index</a><br><a href="file:/home/viklu/Projects/CI/CI/CI_helpers.py">/home/viklu/Projects/CI/CI/CI_helpers.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="CI.constants.html">CI.constants</a><br>
+
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-clone_repo"><strong>clone_repo</strong></a>(ssh_url, branch, target_folder)</dt><dd><tt>Pulls&nbsp;the&nbsp;repo&nbsp;at&nbsp;ssh_url&nbsp;into&nbsp;target_folder</tt></dd></dl>
+ <dl><dt><a name="-is_successful_command"><strong>is_successful_command</strong></a>(command_output, success_regex)</dt><dd><tt>Returns&nbsp;True&nbsp;iff&nbsp;the&nbsp;command_output&nbsp;matches&nbsp;the&nbsp;success_regex</tt></dd></dl>
+ <dl><dt><a name="-read_configfile"><strong>read_configfile</strong></a>(path)</dt><dd><tt>Parses&nbsp;a&nbsp;JSON&nbsp;configfile&nbsp;at&nbsp;path&nbsp;and&nbsp;then&nbsp;returns&nbsp;it</tt></dd></dl>
+ <dl><dt><a name="-run_commands"><strong>run_commands</strong></a>(command_list)</dt><dd><tt>Runs&nbsp;a&nbsp;list&nbsp;of&nbsp;bash&nbsp;commands&nbsp;in&nbsp;the&nbsp;current&nbsp;directory<br>
+command_list:&nbsp;An&nbsp;iterable&nbsp;containing&nbsp;strings<br>
+Observe:&nbsp;`cd`&nbsp;can&nbsp;not&nbsp;be&nbsp;called&nbsp;with&nbsp;this&nbsp;function</tt></dd></dl>
+ <dl><dt><a name="-set_commit_state"><strong>set_commit_state</strong></a>(repo_name, commit_hash, state)</dt><dd><tt>Sends&nbsp;a&nbsp;POST&nbsp;request&nbsp;to&nbsp;GitHub&nbsp;API&nbsp;according&nbsp;to<br>
+https://developer.github.com/v3/repos/statuses</tt></dd></dl>
+ <dl><dt><a name="-try_deploy"><strong>try_deploy</strong></a>(config)</dt><dd><tt>Tries&nbsp;to&nbsp;deploy&nbsp;the&nbsp;tested&nbsp;application<br>
+according&nbsp;to&nbsp;the&nbsp;data&nbsp;in&nbsp;config<br>
+&nbsp;<br>
+The&nbsp;method&nbsp;takes&nbsp;a&nbsp;dictionary&nbsp;that&nbsp;contains<br>
+the&nbsp;following&nbsp;key-value&nbsp;pairs:<br>
+'deploy_ssh_url'&nbsp;-&nbsp;the&nbsp;target&nbsp;ssh_url&nbsp;to&nbsp;deploy&nbsp;to<br>
+'source_branch'&nbsp;-&nbsp;the&nbsp;branch&nbsp;that&nbsp;should&nbsp;be&nbsp;deployed<br>
+'target_branch'&nbsp;-&nbsp;the&nbsp;target&nbsp;branch&nbsp;to&nbsp;deploy&nbsp;to</tt></dd></dl>
+</td></tr></table>
+</body></html>
