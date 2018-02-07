@@ -23,7 +23,7 @@ def test_index(client):
     # Test that index returns a response saying "Hello, World!"
     res = client.get('/')
     assert res.status_code == 200
-    assert b'Hello, World!' == res.data
+    assert b'Hello, World!!!! Works!' == res.data
 
 
 def test_github_webhook(client):

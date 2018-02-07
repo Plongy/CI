@@ -16,7 +16,7 @@ from CI.history_helpers import log_process
 def index():
     """The root endpoint, will not be used in the project,
     but is good for checking setups"""
-    return 'Hello, World!'
+    return 'Hello, World!!!! Works!'
 
 
 @app.route('/hooks/github', methods=['POST'])
@@ -71,6 +71,8 @@ def github_webhook():
             deploy_msg = try_deploy(config)
         else:
             deploy_msg = ""
+
+        print(deploy_msg)
 
         # Return to root folder
         os.chdir(main_dir)

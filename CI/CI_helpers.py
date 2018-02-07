@@ -66,12 +66,16 @@ def set_commit_state(repo_name, commit_hash, state):
 
 
 def try_deploy(config):
-    """Tries to deploy the tested application according to the data in webhook_data"""
+    """Tries to deploy the tested application according
+    to the data in webhook_data"""
     target_url = config['deploy_ssh_url']
     source_branch = config['source_branch']
     target_branch = config['target_branch']
 
-    repo_current_branch = subprocess.check_output("git branch | grep \*", shell=True)
+    repo_current_branch = subprocess.check_output(
+        "git branch | grep \*",
+        shell=True
+    )
 
     if source_branch in repo_current_branch.decode():
         return subprocess.check_output(
