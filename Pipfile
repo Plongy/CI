@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "==3.3.2"
+pytest-flask = "==0.10.0"
+requests-mock = "==1.4.0"
+flake8 = "==3.5.0"
+
+[packages]
+requests = "~=2.20.0"
+Flask = "~=1.0.0"
+
+[requires]
+python_version = "3.7"
