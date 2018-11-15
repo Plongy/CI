@@ -37,19 +37,20 @@ def run_commands(command_list):
         try:
             result = subprocess.Popen(split_command, stdout=subprocess.PIPE)
             # if function call was valid
-            if result.returncode is None:
-                # append output to list
-                command_output.append(result.communicate()[0].decode())
+            result.wait()
+            command_output.append((result.returncode, result.communicate()[0].decode()))
         except OSError as err:
-            command_output.append("Error")
+            command_output.append((1, "Error"))
             print("Exception: OSError", err)
     return command_output
 
 
 def is_successful_command(command_output, success_regex):
     """Returns True iff the command_output matches the success_regex"""
+    if command_output[0] != 0:
+        return False
     matcher = re.compile(success_regex, re.DOTALL)
-    return bool(matcher.search(command_output))
+    return bool(matcher.search(command_output[1]))
 
 
 def set_commit_state(repo_name, commit_hash, state):
